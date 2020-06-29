@@ -16,6 +16,8 @@ netdata
 
 ## Installation
 
+Choose either the Local or Remote method below based on whether your OpenWrt device has `git` and `git-http` installed. These can be installed on OpenWrt via `opkg update; opkg install git git-http` if desired. Otherwise, use the Remote method to clone the project down on another host and push the project to your OpenWrt device.
+
 ### OpenWrt Local (with `git` + `git-http` on OpenWrt device)
 
 ```lang-sh
