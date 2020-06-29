@@ -16,17 +16,37 @@ netdata
 
 ## Installation
 
+### OpenWrt Local (with `git` + `git-http` on OpenWrt device)
+
 ```lang-sh
-git clone https://github.com/Fail-Safe/netdata-chart-sqm.git
-cd netdata-chart-sqm
-sh ./install.sh
+# git clone https://github.com/Fail-Safe/netdata-chart-sqm.git
+# cd netdata-chart-sqm
+# sh ./install.sh
 ```
 
-After completing the above steps, reload your Netdata web interface and confirm if "SQM" appears in the list of charts.
+### OpenWrt Remote
+
+Clone project and `scp` it to the remote OpenWrt device:
+
+```lang-sh
+# git clone https://github.com/Fail-Safe/netdata-chart-sqm.git
+# scp -r "$(pwd)/netdata-chart-sqm" root@<OpenWrt device IP here>:~
+```
+
+Log into the remote OpenWrt device and execute:
+
+```lang-sh
+# cd netdata-chart-sqm
+# sh ./install.sh
+```
+
+### Validate and Test
+
+After completing the above steps (whether local or remote), reload your Netdata web interface and confirm if "SQM" appears in the list of charts.
 
 ## Settings
 
-Common settings are to be modified in `/etc/netdata/charts.d/sqm.conf`.
+Common settings are to be modified in: `/etc/netdata/charts.d/sqm.conf`
 
 ### Values
 
