@@ -4,6 +4,10 @@
 
 Netdata chart for displaying SQM statistics.
 
+## Acknowledgements
+
+Adapted for Netdata based on the existing [sqm_collectd](https://github.com/openwrt/packages/blob/master/utils/collectd/files/exec-scripts/sqm_collectd.sh) script. (Credit: [ldir-EDB0](https://github.com/ldir-EDB0))
+
 ## Requirements
 
 OpenWrt Packages:
