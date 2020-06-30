@@ -127,9 +127,9 @@ sqm_set_tins() {
 sqm_create_overall() {
   cat << EOF
 CHART "SQM.${sqm_ifc}_overview" 'overview' "SQM qdisc $sqm_ifc Overview" '' Qdisc '' line $((sqm_priority)) $sqm_update_every
-DIMENSION 'Kb/s' '' incremental 1 1024
-DIMENSION 'Backlog/B' '' incremental 1 1024
-DIMENSION 'Drops/s' '' absolute 1 1
+DIMENSION 'Kb/s' '' incremental 1 125
+DIMENSION 'Backlog/B' '' incremental 1 1
+DIMENSION 'Drops/s' '' incremental 1 1
 EOF
 }
 
@@ -166,8 +166,8 @@ sqm_create_tins() {
       
       cat << EOF
 CHART "SQM.${tn}_traffic" '' "CAKE $sqm_ifc $tn Traffic" 'Kb/s' $tn 'traffic' line $((sqm_priority + 1 + j)) $sqm_update_every
-DIMENSION 'Kb/s' '' incremental 1 1024
-DIMENSION 'Thres' '' absolute 1 1024
+DIMENSION 'Kb/s' '' incremental 1 125
+DIMENSION 'Thres' '' absolute 1 125
 CHART "SQM.${tn}_latency" '' "CAKE $sqm_ifc $tn Latency" 'ms' $tn 'latency' line $((sqm_priority + 2 + j)) $sqm_update_every
 DIMENSION 'Target' '' absolute 1 1000
 DIMENSION 'Peak' '' absolute 1 1000
@@ -178,7 +178,7 @@ DIMENSION 'Ack' '' incremental 1 1
 DIMENSION 'Drops' '' incremental 1 1
 DIMENSION 'Ecn' '' incremental 1 1
 CHART "SQM.${tn}_backlog" '' "CAKE $sqm_ifc $tn Backlog" 'Bytes' $tn 'backlog' line $((sqm_priority + 4 + j)) $sqm_update_every
-DIMENSION 'Backlog' '' absolute 1 1024
+DIMENSION 'Backlog' '' absolute 1 1
 CHART "SQM.${tn}_flows" '' "CAKE $sqm_ifc $tn Flow Counts" 'Flows' $tn 'flows' line $((sqm_priority + 5 + j)) $sqm_update_every
 DIMENSION 'Sparse' '' absolute 1 1
 DIMENSION 'Bulk' '' absolute 1 1
