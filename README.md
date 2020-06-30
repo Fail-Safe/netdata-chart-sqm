@@ -73,3 +73,9 @@ Common settings are to be modified in: `/etc/netdata/charts.d/sqm.conf`
 ### Example: diffserv8
 
 ![SQM_netdata4](https://user-images.githubusercontent.com/10307870/85966234-a57b7100-b9ae-11ea-9a09-eb0506102236.png)
+
+## References
+
+- https://github.com/openwrt/packages/blob/master/utils/collectd/patches/910-add-cake-qdisc-types.patch
+- https://github.com/openwrt/luci/blob/master/applications/luci-app-statistics/htdocs/luci-static/resources/statistics/rrdtool/definitions/sqm.js
+- https://github.com/openwrt/luci/blob/master/applications/luci-app-statistics/htdocs/luci-static/resources/statistics/rrdtool/definitions/sqmcake.js
