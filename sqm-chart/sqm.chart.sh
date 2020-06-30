@@ -127,9 +127,9 @@ sqm_set_tins() {
 sqm_create_overall() {
   cat << EOF
 CHART "SQM.${sqm_ifc}_overview" 'overview' "SQM qdisc $sqm_ifc Overview" '' Qdisc '' line $((sqm_priority)) $sqm_update_every
-DIMENSION 'Kb/s' '' incremental 1 1024
-DIMENSION 'Backlog/B' '' incremental 1 1024
-DIMENSION 'Drops/s' '' absolute 1 1
+DIMENSION 'bytes' 'Kb/s' incremental 1 125
+DIMENSION 'backlog' 'Backlog/B' incremental 1 1
+DIMENSION 'drops' 'Drops/s' incremental 1 1
 EOF
 }
 
@@ -166,23 +166,23 @@ sqm_create_tins() {
       
       cat << EOF
 CHART "SQM.${tn}_traffic" '' "CAKE $sqm_ifc $tn Traffic" 'Kb/s' $tn 'traffic' line $((sqm_priority + 1 + j)) $sqm_update_every
-DIMENSION 'Kb/s' '' incremental 1 1024
-DIMENSION 'Thres' '' absolute 1 1024
+DIMENSION 'bytes' 'Kb/s' incremental 1 125
+DIMENSION 'thres' 'Thres' absolute 1 125
 CHART "SQM.${tn}_latency" '' "CAKE $sqm_ifc $tn Latency" 'ms' $tn 'latency' line $((sqm_priority + 2 + j)) $sqm_update_every
-DIMENSION 'Target' '' absolute 1 1000
-DIMENSION 'Peak' '' absolute 1 1000
-DIMENSION 'Avg' '' absolute 1 1000
-DIMENSION 'Sparse' '' absolute 1 1000
+DIMENSION 'tg' 'Target' absolute 1 1000
+DIMENSION 'pk' 'Peak' absolute 1 1000
+DIMENSION 'av' 'Avg' absolute 1 1000
+DIMENSION 'sp' 'Sparse' absolute 1 1000
 CHART "SQM.${tn}_drops" '' "CAKE $sqm_ifc $tn Drops/s" 'Drops/s' $tn 'drops' line $((sqm_priority + 3 + j)) $sqm_update_every
-DIMENSION 'Ack' '' incremental 1 1
-DIMENSION 'Drops' '' incremental 1 1
-DIMENSION 'Ecn' '' incremental 1 1
+DIMENSION 'ack' 'Ack' incremental 1 1
+DIMENSION 'drops' 'Drops' incremental 1 1
+DIMENSION 'ecn' 'Ecn' incremental 1 1
 CHART "SQM.${tn}_backlog" '' "CAKE $sqm_ifc $tn Backlog" 'Bytes' $tn 'backlog' line $((sqm_priority + 4 + j)) $sqm_update_every
-DIMENSION 'Backlog' '' absolute 1 1024
+DIMENSION 'backlog' 'Backlog' absolute 1 1
 CHART "SQM.${tn}_flows" '' "CAKE $sqm_ifc $tn Flow Counts" 'Flows' $tn 'flows' line $((sqm_priority + 5 + j)) $sqm_update_every
-DIMENSION 'Sparse' '' absolute 1 1
-DIMENSION 'Bulk' '' absolute 1 1
-DIMENSION 'Unresponsive' '' absolute 1 1
+DIMENSION 'sp' 'Sparse' absolute 1 1
+DIMENSION 'bu' 'Bulk' absolute 1 1
+DIMENSION 'un' 'Unresponsive' absolute 1 1
 EOF
       i=$((i+1))
       j=$((j+5))
@@ -281,9 +281,9 @@ sqm_update() {
   # write the result of the work.
   cat << VALUESOF
 BEGIN "SQM.${sqm_ifc}_overview" $1
-SET 'Kb/s' = $sqm_qdisc_bytes
-SET 'Backlog/B' = $sqm_qdisc_drops
-SET 'Drops/s' = $sqm_qdisc_backlog
+SET 'bytes' = $sqm_qdisc_bytes
+SET 'backlog' = $sqm_qdisc_drops
+SET 'drops' = $sqm_qdisc_backlog
 END
 VALUESOF
 
@@ -291,27 +291,27 @@ VALUESOF
   for tn in "${sqm_tns[@]}"; do
     cat << VALUESOF
 BEGIN "SQM.${tn}_traffic" $1
-SET 'Kb/s' = ${sqm_tns_vals_traffic_kb[i]}
-SET 'Thres' = ${sqm_tns_vals_traffic_thres[i]}
+SET 'bytes' = ${sqm_tns_vals_traffic_kb[i]}
+SET 'thres' = ${sqm_tns_vals_traffic_thres[i]}
 END
 BEGIN "SQM.${tn}_latency" $1
-SET 'Target' = ${sqm_tns_vals_latency_target[i]}
-SET 'Peak' = ${sqm_tns_vals_latency_peak[i]}
-SET 'Avg' = ${sqm_tns_vals_latency_average[i]}
-SET 'Sparse' = ${sqm_tns_vals_latency_sparse[i]}
+SET 'tg' = ${sqm_tns_vals_latency_target[i]}
+SET 'pk' = ${sqm_tns_vals_latency_peak[i]}
+SET 'av' = ${sqm_tns_vals_latency_average[i]}
+SET 'sp' = ${sqm_tns_vals_latency_sparse[i]}
 END
 BEGIN "SQM.${tn}_drops" $1
-SET 'Ack' = ${sqm_tns_vals_drops_backlog_acks[i]}
-SET 'Drops' = ${sqm_tns_vals_drops_backlog_drops[i]}
-SET 'Ecn' = ${sqm_tns_vals_drops_backlog_ecn[i]}
+SET 'ack' = ${sqm_tns_vals_drops_backlog_acks[i]}
+SET 'drops' = ${sqm_tns_vals_drops_backlog_drops[i]}
+SET 'ecn' = ${sqm_tns_vals_drops_backlog_ecn[i]}
 END
 BEGIN "SQM.${tn}_backlog" $1
-SET 'Backlog' = ${sqm_tns_vals_drops_backlog_backlog[i]}
+SET 'backlog' = ${sqm_tns_vals_drops_backlog_backlog[i]}
 END
 BEGIN "SQM.${tn}_flows" $1
-SET 'Sparse' = ${sqm_tns_vals_flows_sparse[i]}
-SET 'Bulk' = ${sqm_tns_vals_flows_bulk[i]}
-SET 'Unresponsive' = ${sqm_tns_vals_flows_unresponsive[i]}
+SET 'sp' = ${sqm_tns_vals_flows_sparse[i]}
+SET 'bu' = ${sqm_tns_vals_flows_bulk[i]}
+SET 'un' = ${sqm_tns_vals_flows_unresponsive[i]}
 END
 VALUESOF
     i=$((i+1))
