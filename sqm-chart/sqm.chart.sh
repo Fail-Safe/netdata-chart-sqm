@@ -288,7 +288,7 @@ sqm_create() {
     esac
 
     json_cleanup
-    offset=$((i+50))
+    offset=$((offset+50))
   done
 
   return 0
