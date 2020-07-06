@@ -56,7 +56,7 @@ Common settings are to be modified in: `/etc/netdata/charts.d/sqm.conf`
 
 ### Values
 
-- `sqm_ifc` - Modify to match the WAN interface where your SQM configuration is applied. [default: eth0]
+- `sqm_ifc` - Modify to match the interface(s) where your SQM configuration is applied. Each interface names should be placed in quotes and separated by a space. e.g. for eth0 and eth1: `declare -a sqm_ifc=("eth0" "eth1")` [default: "eth0"]
 - `sqm_priority` - Modify to change where the SQM chart appears in Netdata's web interface. [default: 90000]
 
 ## Screenshots
