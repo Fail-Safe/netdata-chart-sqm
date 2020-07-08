@@ -161,6 +161,9 @@ sqm_create_tins() {
       diffserv4)
         sqm_tns[$ifc]="BKBEVIVO"
         ;;
+      diffserv5)
+        sqm_tns[$ifc]="LEBKBEVIVO"
+        ;;
       *)
         sqm_tns[$ifc]="T0T1T2T3T4T5T6T7"
         ;;
