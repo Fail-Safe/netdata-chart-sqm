@@ -10,6 +10,11 @@ if [ ! -f "/bin/bash" ]; then
   return 1
 fi
 
+if [ ! -f "/usr/bin/curl" ]; then
+  echo "Curl is not found. Please run 'opkg update; opkg install curl' first."
+  return 1
+fi
+
 if [ ! -f "/usr/bin/timeout" ]; then
   echo "Coreutils-timeout is not found. Please run 'opkg update; opkg install coreutils-timeout' first."
   return 1
