@@ -15,6 +15,7 @@ OpenWrt Packages:
 ```lang-sh
 bash
 coreutils-timeout
+curl
 netdata
 ```
 
