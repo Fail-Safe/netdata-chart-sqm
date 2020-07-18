@@ -230,7 +230,7 @@ sqm_get() {
         sqm_set_overall
         sqm_set_tins
         ;;
-      mq)
+      mq|fq_codel)
         sqm_set_overall
         ;;
 
@@ -281,7 +281,7 @@ sqm_create() {
           sqm_create_overall "$ifc" "$offset"
           sqm_create_tins "$ifc" "$offset"
           ;;
-        mq)
+        mq|fq_codel)
           sqm_create_overall "$ifc" "$offset"
           ;;
 
