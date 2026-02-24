@@ -58,7 +58,12 @@ Common settings are to be modified in: `/etc/netdata/charts.d/sqm.conf`
 ### Values
 
 - `sqm_ifc` - Modify to match the interface(s) where your SQM configuration is applied. Each interface names should be placed in quotes and separated by a space. e.g. for eth0 and eth1: `declare -a sqm_ifc=("eth0" "eth1")` [default: "eth0"]
+- `sqm_cake_mq_mode` - Choose charting behavior for interfaces using `cake_mq`: `cake_mq` (aggregate child `cake` queues into one chart set) or `queue` (one chart set per child queue). [default: `cake_mq`]
 - `sqm_priority` - Modify to change where the SQM chart appears in Netdata's web interface. [default: 90000]
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for release history and notable changes.
 
 ## Screenshots
 
