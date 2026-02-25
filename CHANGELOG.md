@@ -4,6 +4,10 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- New `sqm_cake_mq_mode="overlay"` mode for `cake_mq`, keeping a single chart set per interface while exposing per-queue dimensions on each chart.
+
 ## [v1.1.0] - 2026-02-24
 
 ### Added

@@ -1,3 +1,9 @@
+# OS files
 .DS_Store
+Thumbs.db
+
+# Build files
 .tmp
-push.sh
+.local/
+sqm-go-collector/bin/
+sqm-go-collector/release/
