@@ -13,6 +13,33 @@ sed_inplace() {
 	sed -i "$1" "$2" 2>/dev/null || sed -i '' "$1" "$2"
 }
 
+merge_sqm_conf() {
+	src="$1"
+	dst="$2"
+
+	if [ ! -f "$dst" ]; then
+		cp "$src" "$dst"
+		return 0
+	fi
+
+	tmp="$(mktemp 2>/dev/null || echo "/tmp/sqm.conf.merge.$$")"
+	cp "$dst" "$tmp" || return 1
+
+	while IFS= read -r line || [ -n "$line" ]; do
+		case "$line" in
+		[A-Za-z_][A-Za-z0-9_]*=*)
+			key="${line%%=*}"
+			if ! grep -q "^[[:space:]]*$key=" "$tmp"; then
+				printf '\n%s\n' "$line" >>"$tmp"
+			fi
+			;;
+		esac
+	done <"$src"
+
+	cp "$tmp" "$dst"
+	rm -f "$tmp"
+}
+
 if command -v opkg >/dev/null 2>&1; then
 	pkg_install_cmd="opkg update; opkg install"
 elif command -v apk >/dev/null 2>&1; then
@@ -41,7 +68,7 @@ if [ ! -f "$(sqmpath /etc/netdata/charts.d.conf)" ]; then
 	cp "$(sqmpath /usr/lib/netdata/conf.d/charts.d.conf)" "$(sqmpath /etc/netdata/charts.d.conf)"
 fi
 
-cp ./sqm-chart/sqm.conf "$(sqmpath /etc/netdata/charts.d/)"
+merge_sqm_conf ./sqm-chart/sqm.conf "$(sqmpath /etc/netdata/charts.d/sqm.conf)" || die "Failed to merge sqm.conf"
 cp ./sqm-chart/sqm.chart.sh "$(sqmpath /usr/lib/netdata/charts.d/)"
 
 install_go_collector="no"
@@ -79,44 +106,26 @@ if [ "$install_go_collector" = "yes" ]; then
 		go_target="$(sqmpath /usr/lib/netdata/charts.d/sqm-go-collector)"
 		go_base_url="${SQM_GO_COLLECTOR_BASE_URL:-}"
 		go_version="${SQM_GO_COLLECTOR_VERSION:-latest}"
-		download_go_collector="no"
 
 		if [ -n "$go_base_url" ]; then
-			download_go_collector="yes"
-		elif [ -t 0 ]; then
-			printf "Download Go collector from GitLab package URL? [y/N]: "
-			read -r go_dl_answer
-			case "$go_dl_answer" in
-			y | Y | yes | YES)
-				download_go_collector="yes"
-				;;
-			esac
+			if [ "$go_version" = "latest" ]; then
+				go_url="${go_base_url%/}/${go_filename}"
+			else
+				go_url="${go_base_url%/}/${go_version}/${go_filename}"
+			fi
+		elif [ "$go_version" = "latest" ]; then
+			go_url="https://github.com/Fail-Safe/netdata-chart-sqm/releases/latest/download/${go_filename}"
+		else
+			go_url="https://github.com/Fail-Safe/netdata-chart-sqm/releases/download/${go_version}/${go_filename}"
 		fi
 
-		if [ "$download_go_collector" = "yes" ]; then
-			if [ -z "$go_base_url" ] && [ -t 0 ]; then
-				printf "Enter package base URL: "
-				read -r go_base_url
-			fi
-
-			if [ -n "$go_base_url" ]; then
-				go_url="${go_base_url%/}/${go_version}/${go_filename}"
-				echo "Downloading $go_url"
-				if curl -fsSL "$go_url" -o "$go_target"; then
-					chmod 0755 "$go_target"
-					echo "Installed Go SQM collector binary at $go_target"
-				else
-					echo "Download failed for $go_url."
-					echo "Go SQM collector not installed."
-				fi
-			else
-				echo "No package URL provided."
-				echo "Set SQM_GO_COLLECTOR_BASE_URL (and optional SQM_GO_COLLECTOR_VERSION)."
-				echo "Go SQM collector not installed."
-			fi
+		echo "Downloading $go_url"
+		if curl -fsSL "$go_url" -o "$go_target"; then
+			chmod 0755 "$go_target"
+			echo "Installed Go SQM collector binary at $go_target"
 		else
-			echo "Go SQM collector download not selected."
-			echo "Set SQM_GO_COLLECTOR_BASE_URL (and optional SQM_GO_COLLECTOR_VERSION) to install it."
+			echo "Download failed for $go_url."
+			echo "Go SQM collector not installed."
 		fi
 	fi
 fi

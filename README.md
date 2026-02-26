@@ -53,6 +53,7 @@ Log into the remote OpenWrt device and execute:
 ### Validate and Test
 
 After completing the above steps (whether local or remote), reload your Netdata web interface and confirm if "SQM" appears in the list of charts.
+If `sqm.conf` already exists, installer keeps existing values and appends only missing setting keys introduced by newer versions.
 
 ### Development tests
 
@@ -91,8 +92,17 @@ This repository also includes `sqm-go-collector`, a lightweight Go binary that c
 
 If you choose the Go collector during `install.sh`, you can download a binary from GitHub Releases (or any compatible base URL) by setting:
 
-- `SQM_GO_COLLECTOR_BASE_URL` (example: `https://github.com/<owner>/<repo>/releases/download`)
-- `SQM_GO_COLLECTOR_VERSION` (example: `v2.0.0`)
+- `SQM_GO_COLLECTOR_VERSION` (default: `latest`, example: `v2.0.0`)
+- `SQM_GO_COLLECTOR_BASE_URL` (optional override for custom hosting)
+
+Default behavior (no env vars) downloads from the latest GitHub release:
+
+- `https://github.com/Fail-Safe/netdata-chart-sqm/releases/latest/download/sqm-go-collector-linux-<arch>`
+
+Pinned tag behavior:
+
+- set `SQM_GO_COLLECTOR_VERSION=v2.0.0`, which downloads from:
+- `https://github.com/Fail-Safe/netdata-chart-sqm/releases/download/v2.0.0/sqm-go-collector-linux-<arch>`
 
 ### Performance benchmark (shell vs go backend)
 
