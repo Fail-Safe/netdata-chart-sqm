@@ -1,8 +1,11 @@
 # netdata-chart-sqm
 
+[![Go Collector CI](https://github.com/Fail-Safe/netdata-chart-sqm/actions/workflows/go-collector.yml/badge.svg?branch=master)](https://github.com/Fail-Safe/netdata-chart-sqm/actions/workflows/go-collector.yml)
+
 ## Description
 
 Netdata chart for displaying SQM statistics.
+Current major version: **v2.0**.
 
 ## Acknowledgements
 
@@ -89,7 +92,7 @@ This repository also includes `sqm-go-collector`, a lightweight Go binary that c
 If you choose the Go collector during `install.sh`, you can download a binary from GitHub Releases (or any compatible base URL) by setting:
 
 - `SQM_GO_COLLECTOR_BASE_URL` (example: `https://github.com/<owner>/<repo>/releases/download`)
-- `SQM_GO_COLLECTOR_VERSION` (example: `v1.2.3`)
+- `SQM_GO_COLLECTOR_VERSION` (example: `v2.0.0`)
 
 ### Performance benchmark (shell vs go backend)
 

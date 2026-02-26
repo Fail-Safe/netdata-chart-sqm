@@ -4,9 +4,20 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+## [v2.0.0] - 2026-02-26
+
 ### Added
 
 - New `sqm_cake_mq_mode="overlay"` mode for `cake_mq`, keeping a single chart set per interface while exposing per-queue dimensions on each chart.
+- Optional Go collector backend (`sqm_collector="go"`) with configurable binary path (`sqm_go_collector_bin`).
+- Automated tests for installer behavior and collector output, plus Go unit tests.
+- GitHub Actions workflow for tests, multi-arch collector builds, and tag-based release asset publishing.
+
+### Changed
+
+- `sqm.chart.sh` now delegates chart create/update generation directly to `sqm-go-collector` when Go mode is enabled, avoiding shell-side JSON parsing overhead.
+- `install.sh` now supports both `opkg` and `apk`, with optional collector download from release URLs.
+- README expanded with v2.0 settings documentation, benchmark data, and mode guidance.
 
 ## [v1.1.0] - 2026-02-24
 
