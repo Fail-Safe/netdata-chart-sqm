@@ -86,10 +86,10 @@ This setting only changes how `cake_mq` child queues are presented in charts; me
 The shell collector (`sqm-chart/sqm.chart.sh`) remains the primary integration path for legacy usage.
 This repository also includes `sqm-go-collector`, a lightweight Go binary that can be used as an optional backend for `tc` data collection workflows.
 
-If you choose the Go collector during `install.sh`, you can download a binary from GitLab package registry by setting:
+If you choose the Go collector during `install.sh`, you can download a binary from GitHub Releases (or any compatible base URL) by setting:
 
-- `SQM_GO_COLLECTOR_BASE_URL` (example: `https://gitlab.example.com/api/v4/projects/<project-id>/packages/generic/sqm-go-collector`)
-- `SQM_GO_COLLECTOR_VERSION` (example: `main-abc1234` or a tag)
+- `SQM_GO_COLLECTOR_BASE_URL` (example: `https://github.com/<owner>/<repo>/releases/download`)
+- `SQM_GO_COLLECTOR_VERSION` (example: `v1.2.3`)
 
 ### Performance benchmark (shell vs go backend)
 
